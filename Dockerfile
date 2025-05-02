@@ -1,27 +1,25 @@
 FROM python:3.11-slim
 
-# Install git & uv
+# Install Git & Pip
 RUN apt-get update && \
-    apt-get install -y curl git && \
+    apt-get install -y git curl && \
     curl -LsSf https://astral.sh/uv/install.sh | sh
 
 # Arbeitsverzeichnis
 WORKDIR /app
 
-# Repo klonen
+# MCP-Server klonen
 RUN git clone https://github.com/team-telnyx/telnyx-mcp-server.git .
 
-# Projekt installieren
+# Installiere Abhängigkeiten + MCP-Server
 RUN /root/.local/bin/uv pip install -e . --system
 
-# Umgebungsvariablen
+# Environment-Variablen
 ENV TELNYX_API_KEY=""
-ENV MCP_TRANSPORT=http
-ENV MCP_PORT=8080
-ENV MCP_HOST=0.0.0.0
+ENV PYTHONUNBUFFERED=1
 
 # Expose Port
 EXPOSE 8080
 
-# Start
-CMD ["python", "-m", "telnyx_mcp_server.server"]
+# Start: direkt HTTP-Server starten (ohne CLI)
+CMD ["python", "src/telnyx_mcp_server/http_server.py", "--host", "0.0.0.0", "--port", "8080"]
