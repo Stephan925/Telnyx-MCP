@@ -12,7 +12,7 @@ WORKDIR /app
 RUN git clone https://github.com/team-telnyx/telnyx-mcp-server.git .
 
 # Installiere Abhängigkeiten manuell
-RUN /root/.local/bin/uv pip install -r requirements.txt --system
+RUN /root/.local/bin/uv pip install -e . --system
 
 # Setze Umgebungsvariable (wird in Coolify überschrieben)
 ENV TELNYX_API_KEY=""
