@@ -18,7 +18,7 @@ RUN git clone https://github.com/team-telnyx/telnyx-mcp-server.git /app
 ENV TELNYX_API_KEY=""
 
 # Installiere MCP-Server mit uvx
-RUN /root/.local/bin/uv pip install -e /app
+RUN /root/.local/bin/uv pip install -e /app --system
 
 # Exponiere den Port
 EXPOSE 8080
