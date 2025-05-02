@@ -24,4 +24,5 @@ RUN /root/.local/bin/uv pip install -e /app --system
 EXPOSE 8080
 
 # Startkommando
-CMD ["python", "-m", "telnyx_mcp_server.server", "--transport", "http", "--port", "8080"]
+CMD ["python", "-m", "telnyx_mcp_server.server", "--transport", "http", "--host", "0.0.0.0", "--port", "8080"]
+
