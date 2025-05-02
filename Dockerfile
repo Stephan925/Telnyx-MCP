@@ -1,24 +1,27 @@
 FROM python:3.11-slim
 
-# Install git & uv (optional)
+# Install git & uv
 RUN apt-get update && \
     apt-get install -y curl git && \
     curl -LsSf https://astral.sh/uv/install.sh | sh
 
-# Set Arbeitsverzeichnis
+# Arbeitsverzeichnis
 WORKDIR /app
 
-# Clone Telnyx MCP Server direkt
+# Repo klonen
 RUN git clone https://github.com/team-telnyx/telnyx-mcp-server.git .
 
-# Installiere Abhängigkeiten manuell
+# Projekt installieren
 RUN /root/.local/bin/uv pip install -e . --system
 
-# Setze Umgebungsvariable (wird in Coolify überschrieben)
+# Umgebungsvariablen
 ENV TELNYX_API_KEY=""
+ENV MCP_TRANSPORT=http
+ENV MCP_PORT=8080
+ENV MCP_HOST=0.0.0.0
 
-# Exponiere den Port
+# Expose Port
 EXPOSE 8080
 
-# Starte direkt das Modul mit HTTP
-CMD ["python", "-m", "telnyx_mcp_server.server", "--transport", "http", "--host", "0.0.0.0", "--port", "8080"]
+# Start
+CMD ["python", "-m", "telnyx_mcp_server.server"]
